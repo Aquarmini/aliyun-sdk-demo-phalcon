@@ -7,7 +7,10 @@ use Ecs\Request\V20140526\AllocatePublicIpAddressRequest;
 use Ecs\Request\V20140526\CreateInstanceRequest;
 use Ecs\Request\V20140526\DescribeImagesRequest;
 use Ecs\Request\V20140526\DescribeInstancesRequest;
+use Ecs\Request\V20140526\DescribeInstanceStatusRequest;
 use Ecs\Request\V20140526\DescribeInstanceTypesRequest;
+use Ecs\Request\V20140526\RunInstancesRequest;
+use Ecs\Request\V20140526\StartInstanceRequest;
 use Xin\Cli\Color;
 use Xin\Phalcon\Cli\Traits\Input;
 
@@ -17,13 +20,24 @@ class EcsTask extends Task
 
     public function instancesAction()
     {
+        $instanceId = $this->argument('instance_id');
+
         /** @var \DefaultAcsClient $client */
         $client = di('aliyun');
         $request = new DescribeInstancesRequest();
         $request->setPageSize(10);
+        if ($instanceId) {
+            if (!is_array($instanceId)) {
+                $instanceId = [$instanceId];
+            }
+            $request->setInstanceIds(json_encode($instanceId));
+        }
         # 发起请求并处理返回
         $response = $client->getAcsResponse($request);
 
+        // $response->Instances->Instance[0]->InnerIpAddress->IpAddress[0]
+        // $response->Instances->Instance[0]->PublicIpAddress->IpAddress[0]
+        // $response->Instances->Instance[0]->VpcAttributes->PrivateIpAddress->IpAddress[0]
         dump($response);
     }
 
@@ -80,12 +94,13 @@ class EcsTask extends Task
 
         $response = $client->getAcsResponse($request);
 
+        // $response->InstanceId
         dd($response);
     }
 
     public function allocatePublicIpAddressAction()
     {
-        $instanceId = $this->argument('instance_id', 'i-uf6h9mcsf8qx8k4a24mh');
+        $instanceId = $this->argument('instance_id', 'i-uf61ka2bsb0465tyai9d');
         /** @var \DefaultAcsClient $client */
         $client = di('aliyun');
 
@@ -94,6 +109,42 @@ class EcsTask extends Task
 
         $response = $client->getAcsResponse($request);
 
+        // $response->IpAddress
         dd($response);
+    }
+
+    public function startAction()
+    {
+        $instanceId = $this->argument('instance_id', 'i-uf61ka2bsb0465tyai9d');
+        /** @var \DefaultAcsClient $client */
+        $client = di('aliyun');
+
+        $request = new StartInstanceRequest();
+        $request->setInstanceId($instanceId);
+
+        $response = $client->getAcsResponse($request);
+
+        dd($response);
+    }
+
+    public function statusAction()
+    {
+        /** @var \DefaultAcsClient $client */
+        $client = di('aliyun');
+
+        $request = new DescribeInstanceStatusRequest();
+
+        $response = $client->getAcsResponse($request);
+
+        dd($response);
+    }
+
+    public function serverAction()
+    {
+        $ip = $this->argument('ip', '47.100.114.162');
+
+        $sh = 'ssh -tt root@' . $ip . ' "service nginx start && service php72-php-fpm start && service redis start && service mariadb start"';
+        $res = exec($sh);
+        dd($res);
     }
 }
