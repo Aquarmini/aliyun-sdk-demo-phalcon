@@ -92,6 +92,7 @@ $config = new Config(
                 'cookies' => App\Core\Services\Cookies::class,
                 'session' => App\Core\Services\Session::class,
                 'modelsManager' => App\Core\Services\ModelsManager::class,
+                'aliyun' => App\Core\Services\Aliyun::class,
             ],
             'cli' => [
                 'dispatcher' => App\Core\Services\Cli\Dispatcher::class,
