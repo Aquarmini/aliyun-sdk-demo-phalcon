@@ -23,5 +23,9 @@ class AliyunTask extends Task
         echo Color::colorize('  ecs@status                  ECS实例状态', Color::FG_LIGHT_GREEN) . PHP_EOL;
         echo Color::colorize('  ecs@server                  启动ECS内部服务', Color::FG_LIGHT_GREEN) . PHP_EOL;
         echo Color::colorize('  ecs@images                  镜像列表', Color::FG_LIGHT_GREEN) . PHP_EOL;
+
+        echo Color::colorize('  slb@instances               SLB实例列表', Color::FG_LIGHT_GREEN) . PHP_EOL;
+        echo Color::colorize('  slb@addServers              为SLB实例增加后端服务器', Color::FG_LIGHT_GREEN) . PHP_EOL;
+        echo Color::colorize('  slb@removeServers           为SLB实例移除后端服务器', Color::FG_LIGHT_GREEN) . PHP_EOL;
     }
 }
