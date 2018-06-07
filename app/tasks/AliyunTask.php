@@ -15,6 +15,10 @@ class AliyunTask extends Task
         echo Color::colorize('  php run aliyun:[action]', Color::FG_LIGHT_GREEN) . PHP_EOL . PHP_EOL;
 
         echo Color::head('Actions:') . PHP_EOL;
-        echo Color::colorize('  ecs@instances       查看所有实例列表', Color::FG_LIGHT_GREEN) . PHP_EOL;
+        echo Color::colorize('  ecs@instances               查看所有实例列表', Color::FG_LIGHT_GREEN) . PHP_EOL;
+        echo Color::colorize('  ecs@instanceTypes           查看所有实例类型表', Color::FG_LIGHT_GREEN) . PHP_EOL;
+        echo Color::colorize('  ecs@createInstance          创建ECS实例', Color::FG_LIGHT_GREEN) . PHP_EOL;
+        echo Color::colorize('  ecs@allocatePublicIpAddress 创建ECS实例', Color::FG_LIGHT_GREEN) . PHP_EOL;
+        echo Color::colorize('  ecs@images                  镜像列表', Color::FG_LIGHT_GREEN) . PHP_EOL;
     }
 }
